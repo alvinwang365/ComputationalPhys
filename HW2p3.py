@@ -70,26 +70,6 @@ def chi2func(nMgals, errors, logMgals):
         return sum
     return func
 
-# need to rewrite gradient descent functions to fit the way our chi2 is written
-def back_grad_chi(f, nMgals, errors, logMgals, chi, vec, h = 1e-5):
-    grad = np.zeros_like(vec)
-    for i in range(len(vec)):
-        vec_back = vec.copy()
-        vec_back[i] -= h
-        grad[i] = (chi(nMgals, errors, logMgals,f, vec) - chi(nMgals, errors, logMgals, f, vec_back)) / h
-    return grad
-
-def grad_desc_chi(f,chi, init_vec, nMgals, errors, logMgals, lr = 0.1, tol = 1e-6, max_iter = 1000):
-    vec = init_vec
-    values = [chi(nMgals, errors, logMgals,f,  vec)]
-    for i in range(max_iter):
-        grad = back_grad_chi(f, nMgals, errors, logMgals, chi, vec)
-        next_vec = vec - lr * grad
-        values.append(chi(nMgals, errors, logMgals, f, next_vec))
-        if np.linalg.norm(next_vec - vec) < tol:
-            break
-        vec = next_vec
-    return vec, values
 
 init_params = np.array([-3.2, 11.5, -0.5])
 
